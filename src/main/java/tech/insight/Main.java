@@ -1,12 +1,13 @@
 package main.java.tech.insight;
 
 import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 public class Main {
     public static void main(String[] args) {
         MyThreadPool myThreadPool = new MyThreadPool(
-                2, 4 , 1, TimeUnit.SECONDS, new ArrayBlockingQueue<>(2));
+                2, 4 , 1, TimeUnit.SECONDS, new ArrayBlockingQueue<>(2), new ThrowRejectHandle());
         for (int i = 0; i < 6; i++) {
             myThreadPool.execute(() ->{
                 try{

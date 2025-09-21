@@ -13,16 +13,17 @@ public class MyThreadPool {
     private final int maxSize;
     private final int timeout;
     private final TimeUnit timeUnit;
+    private final BlockingQueue<Runnable> blockingQueue;
+    private final RejectHandle rejectHandle;
 
-    public MyThreadPool(int corePoolSize, int maxSize, int timeout, TimeUnit timeUnit, ArrayBlockingQueue<Runnable> workQueue) {
+    public MyThreadPool(int corePoolSize, int maxSize, int timeout, TimeUnit timeUnit, BlockingQueue<Runnable> blockingQueue, RejectHandle rejectHandle) {
         this.corePoolSize = corePoolSize;
         this.maxSize = maxSize;
         this.timeout = timeout;
         this.timeUnit = timeUnit;
-        blockingQueue = workQueue;
+        this.blockingQueue = blockingQueue;
+        this.rejectHandle = rejectHandle;
     }
-
-    BlockingQueue<Runnable> blockingQueue = new ArrayBlockingQueue<>(1024);
 
     List<Thread> coreList = new ArrayList<>();
     // 辅助线程
@@ -59,7 +60,7 @@ public class MyThreadPool {
         // 4. 再次尝试将任务放入队列（新创建的辅助线程可以消费它）
         // 如果第二次还失败，说明队列真的满了，并且无法再创建新线程，此时就应该拒绝任务。
         if (!blockingQueue.offer(command)) {
-            throw new RuntimeException("拒绝策略：阻塞队列已满，无法接收新任务！");
+            rejectHandle.reject(command, this);
         }
     }
     class CoreThread extends Thread {
