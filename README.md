@@ -85,4 +85,4 @@ public class Main {
 
 ---
 
-*该项目由 [Your Name/ID] 创建，旨在用于学习和交流。*
+*该项目由 [Myrxmy] 创建，旨在用于学习和交流。*
