@@ -17,8 +17,11 @@ public class MyThreadPool {
                 throw new RuntimeException(e);
             }
         }
-    });
+    },"唯一线程");
 
+    {
+        thread.start();
+    }
 
     void execute(Runnable command) {
         boolean offer = blockingQueue.offer(command);
