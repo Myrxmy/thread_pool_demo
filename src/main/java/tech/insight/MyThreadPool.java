@@ -13,7 +13,7 @@ public class MyThreadPool {
     private final int maxSize;
     private final int timeout;
     private final TimeUnit timeUnit;
-    private final BlockingQueue<Runnable> blockingQueue;
+    public final BlockingQueue<Runnable> blockingQueue;
     private final RejectHandle rejectHandle;
 
     public MyThreadPool(int corePoolSize, int maxSize, int timeout, TimeUnit timeUnit, BlockingQueue<Runnable> blockingQueue, RejectHandle rejectHandle) {
